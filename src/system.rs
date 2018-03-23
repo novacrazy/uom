@@ -799,6 +799,22 @@ macro_rules! system {
         {
         }
 
+        impl<D, Ul, Ur, V> $crate::lib::convert::From<Quantity<D, Ur, V>> for Quantity<D, Ul, V>
+        where
+            D: Dimension + ?Sized,
+            Ul: Units<V> + ?Sized,
+            Ur: Units<V> + ?Sized,
+            V: $crate::num::Num + $crate::Conversion<V>,
+        {
+            fn from (t: Quantity<D, Ur, V>) -> Quantity<D, Ul, V> {
+                Quantity {
+                    dimension: $crate::lib::marker::PhantomData,
+                    units: $crate::lib::marker::PhantomData,
+                    value: change_base::<D, Ul, Ur, V>(&t.value)
+                }
+            }
+        }
+
         impl<D, U, V> $crate::lib::hash::Hash for Quantity<D, U, V>
         where
             D: Dimension + ?Sized,

@@ -9,6 +9,12 @@
 ### Fixed
 ### Security
 -->
+## [Unreleased]
+
+### Added
+ * [#58](https://github.com/iliekturtles/uom/issues/58) Implement `From` to allow for explicit
+   conversions between quantities with different base units.
+
 ## [v0.17.0] — 2018-03-14
 This release implements a number of common traits from the standard library, the
 [`num`](https://crates.io/crates/num) crate, and the
