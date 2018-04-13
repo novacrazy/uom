@@ -296,6 +296,60 @@ macro_rules! quantity {
             {
                 Self::new::<N>(self.get::<N>().fract())
             }
+
+            /// asdf
+            pub fn format_args<N>(
+                unit: N,
+                style: $crate::fmt::DisplayStyle
+            ) -> super::fmt::Arguments<Dimension, N>
+            where
+                N: Unit
+            {
+                super::fmt::Arguments {
+                    dimension: $crate::lib::marker::PhantomData,
+                    unit: unit,
+                    style: style,
+                }
+            }
+
+            /// asdf
+            pub fn to_format_args<N>(
+                self,
+                unit: N,
+                style: $crate::fmt::DisplayStyle
+            ) -> super::fmt::QuantityArguments<Dimension, U, V, N>
+            where
+                N: Unit
+            {
+                super::fmt::QuantityArguments {
+                    arguments: super::fmt::Arguments {
+                        dimension: $crate::lib::marker::PhantomData,
+                        unit: unit,
+                        style: style,
+                    },
+                    quantity: self,
+                }
+            }
+        }
+
+        impl<N> super::fmt::Arguments<Dimension, N>
+        where
+            N: super::Unit + Unit,
+        {
+            /// Specifies a quantity to display.
+            pub fn with<U, V>(
+                self,
+                quantity: $quantity<U, V>
+            ) -> super::fmt::QuantityArguments<Dimension, U, V, N>
+            where
+                U: super::Units<V> + ?Sized,
+                V: $crate::num::Num + $crate::Conversion<V>,
+            {
+                super::fmt::QuantityArguments {
+                    arguments: self,
+                    quantity: quantity,
+                }
+            }
         }
 
         mod str {
