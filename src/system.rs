@@ -275,8 +275,8 @@ macro_rules! system {
             use $crate::Conversion;
             use $crate::ConversionFactor;
 
-            (v.into_conversion() $(* U::$name::conversion().powi(D::$symbol::to_i32()))+
-                    / N::conversion())
+            (v.into_conversion() $(* U::$name::coefficient().powi(D::$symbol::to_i32()))+
+                    / N::coefficient() - N::constant())
                 .value()
         }
 
@@ -293,8 +293,8 @@ macro_rules! system {
             use $crate::Conversion;
             use $crate::ConversionFactor;
 
-            (v.into_conversion() * N::conversion()
-                    / (V::conversion() $(* U::$name::conversion().powi(D::$symbol::to_i32()))+))
+            ((v.into_conversion() + N::constant()) * N::coefficient()
+                    / (V::coefficient() $(* U::$name::coefficient().powi(D::$symbol::to_i32()))+))
                 .value()
         }
 
@@ -313,8 +313,8 @@ macro_rules! system {
             use $crate::Conversion;
             use $crate::ConversionFactor;
 
-            (v.into_conversion() $(* Ur::$name::conversion().powi(D::$symbol::to_i32())
-                    / Ul::$name::conversion().powi(D::$symbol::to_i32()))+)
+            (v.into_conversion() $(* Ur::$name::coefficient().powi(D::$symbol::to_i32())
+                    / Ul::$name::coefficient().powi(D::$symbol::to_i32()))+)
                 .value()
         }
 
